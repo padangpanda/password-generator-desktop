@@ -1,0 +1,81 @@
+import { Button, VerticalBox, HorizontalBox, CheckBox } from "std-widgets.slint";
+
+export component AppWindow inherits Window {
+    in-out property <string> pass: "";
+    in-out property <string> len: "16";
+    in-out property <bool> upper: false;
+    in-out property <bool> num: true;
+    in-out property <bool> symbol: false;
+    callback request-generate-password();
+    callback request-set-password-settings();
+    
+    VerticalBox {
+        HorizontalBox {
+            VerticalBox {
+                HorizontalBox {
+                    Text {
+                        text: "Length:";
+                    }
+                    TextInput {
+                        text: root.len;
+                        input-type: InputType.number;
+                        edited => {
+                            root.len = self.text;
+                        }
+                    }
+                }
+                HorizontalBox {
+                    Text {
+                        text: "Uppercase:";
+                    }
+                    CheckBox {
+                        checked: root.upper;
+                        toggled => {
+                            root.upper = !root.upper;
+                        }
+                    }
+                }
+                HorizontalBox {
+                    Text {
+                        text: "Numbers:";
+                    }
+                    CheckBox {
+                        checked: root.num;
+                        toggled => {
+                            root.num = !root.num;
+                        }
+                    }
+                }
+                HorizontalBox {
+                    Text {
+                        text: "Symbols:";
+                    }
+                    CheckBox {
+                        checked: root.symbol;
+                        toggled => {
+                            root.symbol = !root.symbol;
+                        }
+                    }
+                }
+            }
+
+            Button {
+                text: "Set";
+                clicked => {
+                    root.request-set-password-settings();
+                }
+            }
+        }
+
+        Text {
+            text: "Password: \{root.pass}";
+        }
+
+        Button {
+            text: "Generate";
+            clicked => {
+                root.request-generate-password();
+            }
+        }
+    }
+}
