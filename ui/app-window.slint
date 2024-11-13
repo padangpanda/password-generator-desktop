@@ -3,49 +3,37 @@ import { Button, VerticalBox, HorizontalBox, CheckBox, LineEdit } from "std-widg
 export component AppWindow inherits Window {
     in property <string> pass: "";
 
-    callback request-generate-password();
-    callback request-set-password-settings(string, bool, bool, bool);
+    callback request-generate-password(string, bool, bool, bool);
 
     title: "password generator";
     
     VerticalBox {
         HorizontalBox {
-            VerticalBox {
-                HorizontalBox {
-                    Text {
-                        text: "Length:";
-                    }
-                    len := LineEdit {
-                        text: 16;
-                        input-type: InputType.number;
-                    }
-                }
-                HorizontalBox {
-                    Text {
-                        text: "Uppercase:";
-                    }
-                    upper := CheckBox {}
-                }
-                HorizontalBox {
-                    Text {
-                        text: "Numbers:";
-                    }
-                    num := CheckBox {}
-                }
-                HorizontalBox {
-                    Text {
-                        text: "Symbols:";
-                    }
-                    symbols := CheckBox {}
-                }
+            Text {
+                text: "Length:";
             }
-
-            Button {
-                text: "Set";
-                clicked => {
-                    root.request-set-password-settings(len.text, upper.checked, num.checked, symbols.checked);
-                }
+            len := LineEdit {
+                text: 16;
+                input-type: InputType.number;
             }
+        }
+        HorizontalBox {
+            Text {
+                text: "Uppercase:";
+            }
+            upper := CheckBox {}
+        }
+        HorizontalBox {
+            Text {
+                text: "Numbers:";
+            }
+            num := CheckBox {}
+        }
+        HorizontalBox {
+            Text {
+                text: "Symbols:";
+            }
+            symbols := CheckBox {}
         }
 
         Text {
@@ -55,7 +43,7 @@ export component AppWindow inherits Window {
         Button {
             text: "Generate";
             clicked => {
-                root.request-generate-password();
+                root.request-generate-password(len.text, upper.checked, num.checked, symbols.checked);
             }
         }
     }
