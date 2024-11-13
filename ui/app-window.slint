@@ -1,7 +1,7 @@
 import { Button, VerticalBox, HorizontalBox, CheckBox, LineEdit } from "std-widgets.slint";
 
 export component AppWindow inherits Window {
-    in-out property <string> pass: "";
+    in property <string> pass: "";
 
     callback request-generate-password();
     callback request-set-password-settings(string, bool, bool, bool);
