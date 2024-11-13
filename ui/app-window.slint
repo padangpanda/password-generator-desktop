@@ -1,13 +1,10 @@
-import { Button, VerticalBox, HorizontalBox, CheckBox } from "std-widgets.slint";
+import { Button, VerticalBox, HorizontalBox, CheckBox, LineEdit } from "std-widgets.slint";
 
 export component AppWindow inherits Window {
     in-out property <string> pass: "";
-    in-out property <string> len: "16";
-    in-out property <bool> upper: false;
-    in-out property <bool> num: true;
-    in-out property <bool> symbol: false;
+
     callback request-generate-password();
-    callback request-set-password-settings();
+    callback request-set-password-settings(string, bool, bool, bool);
     
     VerticalBox {
         HorizontalBox {
@@ -16,53 +13,35 @@ export component AppWindow inherits Window {
                     Text {
                         text: "Length:";
                     }
-                    TextInput {
-                        text: root.len;
+                    len := LineEdit {
+                        text: 16;
                         input-type: InputType.number;
-                        edited => {
-                            root.len = self.text;
-                        }
                     }
                 }
                 HorizontalBox {
                     Text {
                         text: "Uppercase:";
                     }
-                    CheckBox {
-                        checked: root.upper;
-                        toggled => {
-                            root.upper = !root.upper;
-                        }
-                    }
+                    upper := CheckBox {}
                 }
                 HorizontalBox {
                     Text {
                         text: "Numbers:";
                     }
-                    CheckBox {
-                        checked: root.num;
-                        toggled => {
-                            root.num = !root.num;
-                        }
-                    }
+                    num := CheckBox {}
                 }
                 HorizontalBox {
                     Text {
                         text: "Symbols:";
                     }
-                    CheckBox {
-                        checked: root.symbol;
-                        toggled => {
-                            root.symbol = !root.symbol;
-                        }
-                    }
+                    symbols := CheckBox {}
                 }
             }
 
             Button {
                 text: "Set";
                 clicked => {
-                    root.request-set-password-settings();
+                    root.request-set-password-settings(len.text, upper.checked, num.checked, symbols.checked);
                 }
             }
         }
