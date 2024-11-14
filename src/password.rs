@@ -1,6 +1,6 @@
 use passwords::PasswordGenerator;
 
-pub fn create_password(len: i32, num: bool, uppercase: bool, symbol: bool) -> String {
+pub fn create_password(len: u32, num: bool, uppercase: bool, symbol: bool) -> String {
     let pg = PasswordGenerator {
         length: len as usize,
         numbers: num,

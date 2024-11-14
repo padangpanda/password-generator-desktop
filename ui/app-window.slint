@@ -1,20 +1,26 @@
-import { Button, VerticalBox, HorizontalBox, CheckBox, LineEdit } from "std-widgets.slint";
+import { Button, VerticalBox, HorizontalBox, CheckBox, LineEdit, Slider } from "std-widgets.slint";
 
 export component AppWindow inherits Window {
     in property <string> pass: "";
+    in property <int> len_int: 8;
 
     callback request-generate-password(string, bool, bool, bool);
+    callback slider-toggled(float);
 
     title: "password generator";
     
     VerticalBox {
         HorizontalBox {
             Text {
-                text: "Length:";
+                text: "Length: \{len_int}";
             }
-            len := LineEdit {
-                text: 16;
-                input-type: InputType.number;
+
+            len := Slider {
+                minimum: 8;
+                maximum: 256;
+                changed => {
+                    root.slider-toggled(len.value);
+                }
             }
         }
         HorizontalBox {
@@ -43,7 +49,7 @@ export component AppWindow inherits Window {
         Button {
             text: "Generate";
             clicked => {
-                root.request-generate-password(len.text, upper.checked, num.checked, symbols.checked);
+                root.request-generate-password(root.len_int, upper.checked, num.checked, symbols.checked);
             }
         }
     }
